@@ -1,0 +1,103 @@
+:root
+{
+    --offblack : rgb(32, 32, 32);
+    --lime : rgb(150, 255, 119);
+    --darklime : rgb(114, 194, 90);
+    --pseudoGray1 : rgb(68, 68, 68);
+    --pseudoGray2 : rgb(104, 104, 104);
+    
+}
+
+/* create your StudentFormCss here ⬇ */
+
+.filterbar {
+    background-color: red;
+}
+
+/* form Css */
+
+/* AddContent [JsonFetcherForm] */
+    #AddContent .JsonFetcherForm
+    {
+        font-size: 24px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 2vh 5px 5px 5px;
+        background-color: var(--pseudoGray1) ;
+
+    }
+    #AddContent .JsonFetcherForm .field_pair
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1vh 2vw;
+    }
+    #AddContent .JsonFetcherForm .field_pair label
+    {
+        width: 35%;
+        color: white;
+    }
+    #AddContent .JsonFetcherForm .field_pair input[type='text']
+    {
+        width: 65%;
+    }
+
+    .contents #AddContent form[method='POST'] input[type='submit']:hover
+    {
+        background-color: var(--lime);
+    }
+
+    /* select [JsonFetcherForm] */
+    #AddContent .JsonFetcherForm .field_pair select
+    {
+        width: calc(65% + 10px);
+        font-size: 24px;
+        padding: 5px;
+    }
+
+
+    /* EditContent [JsonFetcherForm] */
+    #EditContent .JsonFetcherForm
+    {
+        font-size: 24px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: 2vh 5px 5px 5px;
+        background-color: var(--pseudoGray1) ;
+
+    }
+    #EditContent .JsonFetcherForm .field_pair
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 1vh 2vw;
+    }
+    #EditContent .JsonFetcherForm .field_pair label
+    {
+        width: 35%;
+        color: white;
+    }
+    #EditContent .JsonFetcherForm .field_pair input[type='text']
+    {
+        width: 65%;
+    }
+
+    .contents #EditContent form[method='POST'] input[type='submit']:hover
+    {
+        background-color: var(--lime);
+    }
+
+    /* select [JsonFetcherForm] */
+    #EditContent .JsonFetcherForm .field_pair select
+    {
+        width: calc(65% + 10px);
+        font-size: 24px;
+        padding: 5px;
+    }    
+

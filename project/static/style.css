@@ -1,0 +1,330 @@
+:root
+{
+    --offblack : rgb(32, 32, 32);
+    --lime : rgb(150, 255, 119);
+    --darklime : rgb(114, 194, 90);
+    --pseudoGray1 : rgb(68, 68, 68);
+    --pseudoGray2 : rgb(104, 104, 104);
+    
+}
+*
+{
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+/* create your micro-states */
+.invisible
+{
+    display: none !important;
+}
+.selected 
+{   
+    
+    background-color: var(--lime) !important; 
+    color: black !important;
+}
+
+
+.maindiv
+{
+    background-color: var(--offblack);
+    border-radius: 9px;
+    margin: 5vh 5vw 5vh 5vw;
+    height: 90vh;
+    width:  90vw;
+}
+
+.navbar 
+{
+    height: 100px
+}
+.navbar ol
+{
+    height: 100px;
+    list-style-type: none;
+    display: flex;
+
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.navbar ol li
+{
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.navbar ol li a
+{
+    text-align: center;
+    width: 92%;
+    margin: 0 4%;
+    background-color:  var(--lime);
+    border-radius: 9px;
+    font-size: 35px;
+    text-decoration: none;
+    color: black;
+    padding: 5px 27px;
+
+    letter-spacing: 2px;
+    text-shadow: 0.5px -0.5px black,
+                -0.5px  0.5px black,
+                 0.5px  0.5px black,
+                -0.5px -0.5px black;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+
+}
+.navbar ol li a:hover
+{
+    color: white;
+}
+
+.tricontainer
+{
+    margin: 0 1vw;
+    background-color: none;
+    width: 88vw;
+    height: 74vh;
+    border-radius: 9px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.tricontainer .general_stats
+{
+    background-color: rgba(255, 0, 0, 0);
+    width: 20.7vw;
+    height: 72vh;
+}
+
+.tricontainer .form_sets
+{
+    background-color: rgba(172, 255, 47, 0);
+    width: 28vw;
+    height: 72vh;
+    border-style: none solid;
+    border-width: 10px;
+    border-color: var(--offblack);
+    
+
+}
+
+.tricontainer .table_data
+{
+    background-color: rgba(0, 255, 255, 0);
+    width: 39.7vw;
+    height : 72vh;
+}
+/* general_stats */
+    .tricontainer .general_stats table 
+    {
+        font-size: 23px;
+        width: 100%;
+        
+        color: white;
+
+        border: none black 1px;
+        border-collapse: collapse;
+        border-radius: 9px;
+    }
+
+    .tricontainer .general_stats table tr:nth-child(odd)
+    {
+        background-color: var(--pseudoGray2);
+    }
+
+    .tricontainer .general_stats table tr:nth-child(even)
+    {
+        background-color: var(--pseudoGray1);
+    }
+
+    .tricontainer .general_stats table th
+    {
+        text-align: left;
+        font-size: 20px;
+        
+        padding: 10px 0;padding-left: 20px;
+    }
+
+    .tricontainer .general_stats table td
+    {
+        text-align: right;
+
+
+        padding: 10px 0;padding-right: 20px;
+
+    }
+
+/* form_sets */  
+.tricontainer .form_sets .tabs
+{
+    background-color: rgba(255, 0, 0, 0);
+    width: 100%;
+    height: calc(7vh + 19px);
+    overflow-x: scroll;
+    overflow-y: hidden;
+    /*15*/
+}
+
+.tricontainer .form_sets .contents
+{
+    background-color: rgba(255, 208, 0, 0); 
+    width: 100%;
+    height: calc(65vh - 19px);
+    
+}
+    
+.tricontainer .form_sets .tabs ul
+{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    
+    
+}
+
+.tricontainer .form_sets .tabs ul li
+
+{   
+    color: white;
+    border-style: none solid none none;
+    border-color: var(--offblack);
+    border-width: 2px;
+    
+    font-size: 35px;
+    background-color: var(--pseudoGray1);
+    padding: 0 20px;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+
+}
+.tricontainer .form_sets .tabs ul li:nth-last-child(1)
+{
+    border-style: none;
+}
+.tricontainer .form_sets .tabs ul li:hover
+{
+    cursor: pointer;
+    background-color: var(--pseudoGray2) ;
+}
+
+
+/* table data */
+.tricontainer .table_data .table_container
+{
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    width: calc(39.7vw);
+    height: calc(72vh - 0px);
+}
+
+
+    .tricontainer .table_data .student_list 
+    {
+
+        font-size: 12px;
+        width: 100%;
+        user-select: none;
+        color: white;
+
+        border: none black 1px;
+        border-collapse: collapse;
+        border-radius: 9px;
+    }
+
+    .tricontainer .table_data .student_list tr:nth-child(odd)
+    {
+        background-color: var(--pseudoGray2);
+    }
+
+    .tricontainer .table_data .student_list tr:nth-child(even)
+    {
+        background-color: var(--pseudoGray1);
+    }
+
+    .tricontainer .table_data .student_list th
+    {
+        text-align: left;
+        font-size: 18px;
+        background-color: var(--pseudoGray1);
+        border-bottom: none black 1px;
+        padding: 10px 0;padding-left: 20px;
+    }
+
+    .tricontainer .table_data .student_list td
+    {
+        text-align: left;
+
+
+        padding: 10px 0;padding-left: 20px;
+
+    }
+
+    /* Give Universal form Css here */
+    .JsonFetcherForm label
+    {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .JsonFetcherForm input[type='text']
+    {
+        font-size: 24px;
+        padding: 5px;
+    }
+    .JsonFetcherForm input[type='text']:focus
+    {
+        outline: none;
+    }
+
+    .contents form[method='POST'] 
+    {
+        background-color: var(--pseudoGray1);
+        padding-top: 20px;
+        padding-bottom: 15px;
+        width: 100%;
+        text-align: center;
+        border-radius: 0 0 10px 10px;
+    }
+
+    .contents form[method='POST'] input[type='submit']
+    {
+        letter-spacing: 1.3px;
+        font-weight: 700;
+        font-size: 24px;
+        color: white;
+        width: calc(100% - 2vw);
+        background-color: var(--pseudoGray2);
+        border: solid var(--pseudoGray2) 2px;
+        padding: 5px 20px;
+        border-radius: 8px;
+
+
+        transition-timing-function: ease-in-out;
+        transition-duration: 0.2s;
+
+
+    }
+    .contents form[method='POST'] input[type='submit']:hover
+    {
+        color: var(--pseudoGray2);
+        cursor: pointer;
+        background-color: white;
+
+    }
+
+
+
+
+

@@ -1,0 +1,325 @@
+{% extends "inherits/base.html" %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href='{% static "FormCSS/StudentForm.css" %}'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock head %}
+
+{% block title %}Student{% endblock title %}
+{% block context %}
+<!-- dump your data migrants here -->
+<div id='StudentResponseDataDIV' style="display: none;">{{student.data | safe}}</div>
+<div id='BatchResponseDataDIV' style="display: none;">{{batch.data | safe}}</div>
+<script>
+    /* dump your const here*/
+    const rootelement = document.documentElement;
+    const CssVars = window.getComputedStyle(rootelement);
+    const css_color_lime = CssVars.getPropertyValue('--lime').trim();
+
+    
+    /* student */
+    const StudentRawResponseData = document.getElementById('StudentResponseDataDIV').textContent;
+    /** @type {Object<number, {cls: string, batch: string, roll: string, name: string, gender: string, v_balance: number|null, mobile_no: string}> */
+    const StudentResponseData = JSON.parse(StudentRawResponseData);
+    
+    /* batch */
+    
+    const BatchRawResponseData = document.getElementById('BatchResponseDataDIV').textContent;
+    /** @type {Object<number, {name: string, is_running = string}>}*/
+    const BatchResponseData = JSON.parse(BatchRawResponseData);
+
+
+    const StudentNames = [];
+    for (let i in StudentResponseData){
+        // console.log(ResponseData[i]);
+        StudentNames.push(StudentResponseData[i]['name'])
+    };
+    const BatchNames = [];
+    for (let i in BatchResponseData){
+        // console.log(BatchResponseData[i]);
+        BatchNames.push(BatchResponseData[i]['name']);
+    };
+    console.log(BatchNames)
+
+
+</script>
+
+<script>
+
+function filter_data(data, filters) {
+    
+    return true /* for now*/
+};
+
+
+
+/** 
+ @param {Object<number, {cls: string, batch: string, roll: string, name: string, gender: string, v_balance: number|null, mobile_no: string}>} JsonDt 
+ */
+function vectorize_student_data(JsonDt)
+{
+    const rows = Object.keys(JsonDt).length;
+/** @type {{cls: string, batch: string, roll: string, name: string, gender: string, v_balance: number|null, mobile_no: string}[]} */
+    const lst = [];
+    
+    for (let i = 0; i < rows; i++){
+        row = JsonDt[i];
+
+        lst.push(row);
+    };
+    // console.log(lst);
+    return lst
+};
+
+
+
+/** @type {HTMLTableRowElement} */
+var selected_element = null;
+/** 
+@param {HTMLTableRowElement}  rowElem
+*/
+
+function select_from_table(rowElem)
+{
+    if (selected_element)
+    {
+       selected_element.classList.remove('selected'); 
+    }
+    if (selected_element === rowElem)
+    {
+        //deselect
+        selected_element = null;
+    }
+    else 
+    {
+        //select
+        selected_element = rowElem;
+        selected_element.classList.add('selected');
+    }
+};
+
+function display_student_table(table_container, filers){
+    // 1. Get the vectorized Data
+    const student_list = vectorize_student_data(StudentResponseData);
+    console.log(student_list);
+    // 2. Create the table structure
+    let tableHtml = `
+    <table class="student_list" style="position: sticky; top: 0;">
+        <tr>
+            <th id='Head_roll'>Roll</th>
+            <th id='Head_name'>Name</th>
+            <th id='Head_cls'>Class</th>
+            <th id='Head_mobile_no'>Mobile</th>
+        </tr>
+    </table>
+    <table class="student_list">
+    `;
+
+    // 3. Loop through the shared ResponseData
+    for (let i of student_list) {
+        tableHtml += `
+            <tr id = "${i.mobile_no}" onclick = "select_from_table(this)">
+                <td>${i.roll}</td>
+                <td>${i.name}</td>
+                <td>${i.cls}</td>
+                <td style = 'user-select: text'>${i.mobile_no}</td>
+            </tr>
+        `;
+    };
+    
+    
+    tableHtml += `</table>`;
+    // 4. Inject it into the DOM
+    table_container.innerHTML += tableHtml;
+}
+/** @type {Array<String>}*/
+const tabs = ['Add', 'Pay', 'Edit', 'Deposit', 'Withdraw'];
+ 
+/** @type {HTMLElement} */
+var form_tab_opened = document.getElementById(('Add' + 'Content'));
+
+/** 
+ * @param {tab == string;} -> void
+ */
+function select_tab(tabID)
+{
+    if (!form_tab_opened) {
+        form_tab_opened = document.getElementById('AddContent');
+        form_tab_opened_nav = document.getElementById('AddNav');
+    }
+    /** @type {HTMLElement}*/
+    let tab = document.getElementById((tabID + 'Content')); 
+    let nav = document.getElementById((tabID + 'Nav'));
+    if (tab === form_tab_opened) // do nothin
+    {
+        return
+    } 
+    else // swap display target
+    {
+        form_tab_opened.style.display = 'none';
+        form_tab_opened_nav.classList.remove('selected');
+
+        form_tab_opened = tab;
+        form_tab_opened_nav = nav;
+
+        form_tab_opened.style.display = 'block';
+        form_tab_opened_nav.classList.add('selected'); 
+
+    }
+
+
+}
+
+</script>
+
+<div class="tricontainer">
+        <!-- has a table [key:value] ; no head -->
+        <div class="general_stats">
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <td>{{student.qty}}</td>
+                </tr>
+                <tr>
+                    <th>Batch</th>
+                    <td>{{batch.qty}}</td>
+                </tr>
+                <tr>
+                    <th>Payment due</th>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <th>Payment left</th>
+                    <td>6000</td>
+                </tr>
+            </table>
+        </div>
+        <!-- has a dynamic tab and a form(displayer) and submit that belongs to django -->
+        <div class="form_sets">
+            <div class="tabs">
+                <ul>
+                    <li id="AddNav" onclick = "select_tab('Add')" class="selected" style="user-select: none;">Add</li>
+                    <li id="PayNav" onclick = "select_tab('Pay')"  style="user-select: none;">Pay</li>
+                    <li id="EditNav" onclick = "select_tab('Edit')"  style="user-select: none;">Edit</li> 
+                    <li id="DepositNav" onclick = "select_tab('Deposit')"  style="user-select: none;">Deposit</li>
+                    <li id="WithdrawNav" onclick = "select_tab('Withdraw')"  style="user-select: none;">Withdraw</li>
+                </ul>
+            </div>
+            <div class="contents">
+                <ul>
+                    <li id="AddContent" style="display: block;">
+                        <form action="#" class="JsonFetcherForm", id="Fake_Student_add_form">
+
+                            <div class="field_pair">
+                                <label for="name">Name</label>
+                                <input type="text" id="nameAdd" autocomplete="off" value="" maxlength="26">
+                            </div>
+                            <div class="field_pair">
+                                <label for="gender">Gender</label>
+                                
+                                <select id="genderSelectAdd" name="gender" form="Fake_Student_add_form">
+                                    <option value='_'> - </option>
+                                    {% for opts in Gender_choice %}
+                                        <option value='{{opts}}'>{{opts}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div >
+                            <div class="field_pair">
+                                <label for="mobile_no">Mobile</label>
+                                <input type="text" id="mobile_noAdd">
+                            </div >
+                            <div class="field_pair">
+                                <label for="cls">Class</label>
+                                
+                                <select id="classSelectAdd" name="cls" form="Fake_Student_add_form">
+                                    <option value='_'> - </option>
+                                    {% for opts in Class_choice %}
+                                        <option value='{{opts}}'>{{opts}}</option>
+                                    {% endfor %}
+                                </select>
+                                                                
+                            </div>
+                            <div class="field_pair">
+                                <label for="batch">Batch</label>
+                                <select id="batchSelectAdd" name="batch" form="Fake_Student_add_form">
+                                    <option value='_'> - </option>
+                                    {% for opts in Batch_choice %}
+                                        <option value='{{opts}}'>{{opts}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </form>
+                        <form id='studentAddJson' action="" style="display: block;" method="POST" class=""> <!-- leaving action to default, it will redirect the data [HttpResponse] to the same view-->
+                            {% csrf_token %}
+                            {{ forms.AddForm }}
+                            <input type="submit" value="Submit" name="AddFormJson">
+                            <script>{
+                                
+                                /** @type {HTMLFormElement} */
+                                const FakeForm = document.getElementById("Fake_Student_add_form");
+                                /** @type {HTMLFormElement} */
+                                const HiddenInput = document.getElementById("Student_add_form");
+                                /** @type {HTMLFormElement} */
+                                const RealForm = document.getElementById("studentAddJson")
+                                RealForm.addEventListener("submit" , TransferJson);
+
+                                function TransferJson()
+                                {
+                                    /* get all the child elements which as input (exception input:submit) */
+                                    const DivCards = FakeForm.children;
+                                    /**@type {Object} */
+                                    const inputList = new Object();
+                                    for (let i = 0;i < DivCards.length; i++)
+                                    {
+                                        /** @type {HTMLLabelElement} */
+                                        let inputLabel = DivCards[i].querySelector("label");
+                                        /** @type {HTMLInputElement} */
+                                        let inputTag = DivCards[i].querySelector("input, select");
+                                        
+                                        let label = inputLabel.textContent;let inputData = inputTag.value;inputList[label.toString()] = inputData.toString();
+                                    };
+                                    
+                                    JsonResult = JSON.stringify(inputList);
+                                    HiddenInput.value = JsonResult;
+                                    
+                                };
+                                
+                            }</script>
+                        </form>
+                    </li>
+
+                    <li id="PayContent" style="display: none;">
+                        
+                    </li>
+                    <li id="EditContent" style="display: none;">
+                    
+                    </li>
+                    <li id="DepositContent" style="display: none;"></li>
+                    <li id="WithdrawContent" style="display: none;"></li>
+                </ul>
+                
+            </div>
+            
+        </div>
+        <!-- has a dynamic tab and a table. has filter function for each table -->
+        <div class="table_data">
+            <div class="filterbar">
+                <form action="", style="display: none;">
+                    <input type="text" name="" id="">
+                </form>
+            </div>
+            <div class="table_container">
+                
+            </div>
+        </div>
+        <script>
+            const tableContainer = document.querySelector('.table_container');
+            display_student_table(tableContainer, []);
+           
+            // add EventListener so it does sorting
+            // nvm lets pause at this mini-task
+
+        </script>
+</div>
+{% endblock context %}
